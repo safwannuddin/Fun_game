@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #0d1322;
+  color: #e8ecf6;
+}
+
+body {
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(1200px 600px at 85% -10%, rgba(255, 138, 61, 0.08), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(114, 167, 255, 0.07), transparent 60%);
+  background-attachment: fixed;
+}
+
+:focus-visible {
+  outline: 2px solid #ff8a3d;
+  outline-offset: 2px;
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-muted;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 font-semibold text-ink transition
+      hover:brightness-110 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line px-4 py-2.5 font-medium text-text transition
+      hover:border-muted hover:bg-raised disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .panel {
+    @apply rounded-2xl border border-line bg-surface;
+  }
+}
+
+/* Room scene ambient motion */
+.room-item {
+  cursor: pointer;
+  outline: none;
+}
+.room-item .art {
+  transition: filter 0.2s ease, transform 0.2s ease;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+.room-item:hover .art,
+.room-item:focus-visible .art {
+  filter: brightness(1.18) drop-shadow(0 0 10px rgba(255, 255, 255, 0.25));
+  transform: translateY(-2px);
+}
+.room-item.is-clean .art {
+  filter: grayscale(0.85) brightness(0.65);
+}
+.room-locked .room-item {
+  cursor: default;
+}
+.leaf {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
