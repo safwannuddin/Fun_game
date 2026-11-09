@@ -79,7 +79,7 @@ export const DAYS: Day[] = [
         options: [
           { visual: { kind: "email", from: "GitHub <notifications@github.com>", subject: "New sign-in to your account", preview: "We noticed a new sign-in from Chrome on Windows.", link: "github.com/settings/security" } },
           { visual: { kind: "email", from: "GitHub Security <security@githuh-support.com>", subject: "URGENT: account locked in 1 hour", preview: "Verify your password now or lose your repositories.", link: "githuh-support.com/verify" } },
-          { visual: { kind: "email", from: "LSBU <noreply@lsbu.ac.uk>", subject: "Your timetable for next week", preview: "Your updated timetable is ready in the student portal.", link: "lsbu.ac.uk/timetable" } },
+          { visual: { kind: "email", from: "Brightfield University <noreply@brightfield.ac.uk>", subject: "Your timetable for next week", preview: "Your updated timetable is ready in the student portal.", link: "brightfield.ac.uk/timetable" } },
         ],
         answer: 1,
         explain: "githuh-support.com is a look-alike domain, and 'locked in 1 hour' is pure panic. Real GitHub mail comes from github.com.",
@@ -168,7 +168,7 @@ export const DAYS: Day[] = [
         prompt: "Which text message is the scam?",
         options: [
           { visual: { kind: "sms", from: "+44 7491 220813", text: "QuickParcel: your parcel is on hold. Pay £1.45 within 2 hrs: quickparcel-fee.help/pay" } },
-          { visual: { kind: "sms", from: "LSBU Library", text: "Your book 'Clean Code' is due Friday. Renew it in the LSBU app." } },
+          { visual: { kind: "sms", from: "Uni Library", text: "Your book 'Clean Code' is due Friday. Renew it in the library app." } },
           { visual: { kind: "sms", from: "Mum", text: "Call me when you're free, your auntie says hi x" } },
         ],
         answer: 0,

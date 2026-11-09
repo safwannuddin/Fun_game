@@ -47,7 +47,7 @@ export default function Login({ onSignIn }: Props) {
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@lsbu.ac.uk"
+            placeholder="name@example.com"
             className="rounded-lg border border-line bg-ink px-4 py-3 text-base outline-none focus:border-signal"
           />
         </label>
@@ -59,7 +59,7 @@ export default function Login({ onSignIn }: Props) {
             value={name}
             maxLength={24}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Safwan"
+            placeholder="First name"
             className="rounded-lg border border-line bg-ink px-4 py-3 text-base outline-none focus:border-signal"
           />
         </label>
@@ -71,7 +71,7 @@ export default function Login({ onSignIn }: Props) {
         <button type="submit" className="btn text-base">
           Continue
         </button>
-        <p className="text-xs text-muted">Google sign-in is coming soon. For now, your progress is saved in this browser.</p>
+        <p className="text-xs text-muted">We only use your email to save your progress and show your first name on the leaderboard. It is never shared.</p>
       </motion.form>
     </div>
   );

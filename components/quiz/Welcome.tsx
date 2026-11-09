@@ -9,7 +9,7 @@ export default function Welcome({ onStart }: { onStart: () => void }) {
   return (
     <div className="flex min-h-[85dvh] flex-col items-center justify-center gap-6 text-center">
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="eyebrow">
-        CSDT Student Ambassadors · LSBU
+        A cybersecurity adventure
       </motion.p>
       <motion.h1
         initial={{ opacity: 0, y: 16 }}
