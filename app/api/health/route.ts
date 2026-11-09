@@ -3,7 +3,7 @@ import { geminiStatus } from "@/lib/server/gemini";
 import { leaderboardEnabled, pipeline } from "@/lib/server/redis";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 /**
  * GET /api/health: live check of each service. Shows whether the Gemini key and

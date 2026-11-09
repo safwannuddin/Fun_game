@@ -4,7 +4,7 @@ import { DAYS } from "@/lib/journey";
 import { aiEnabled, gemini } from "@/lib/server/gemini";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 const body = z.object({
   day: z.number().int().min(1).max(DAYS.length),
