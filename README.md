@@ -38,12 +38,22 @@ Your character vibe-coded **CampusEats**, a food-sharing app for students, entir
 
 **Progress:** 3 of 4 correct clears a day (4 of 4 earns 3 stars). The character ranks up from Vibe Coder → Junior Dev → Developer → Software Engineer → Security Engineer → Cyber Guardian.
 
+## Live features
+
+These run on the server (Vercel functions), so API keys never reach the browser. Each one hides itself when its key is missing, so the game always works.
+
+- **Ask the teacher (AI):** players chat with the day's teacher. Gemini answers in character, stays on the day's topic, and only teaches defence.
+- **AI bonus challenge:** after clearing a day, Gemini writes a brand-new question. It is checked against a strict schema before it is shown, and earns +20 XP once per day.
+- **Live leaderboard:** this week's top 10 across every device, refreshed every 15 seconds. Emails are hashed and never stored.
+
 ## Tech
 
 - Next.js 14 (App Router), TypeScript, Tailwind CSS
 - three.js + React Three Fiber for the 3D characters
 - framer-motion for animation, WebAudio for sound effects
-- zod for form validation
+- zod for validating forms, API input and AI output
+- Gemini API (server-side) for the teacher chat and bonus questions
+- Upstash Redis (REST) for the weekly leaderboard
 
 ```
 app/                    page shell, fonts, global styles
@@ -58,9 +68,20 @@ components/quiz/
   DayPlay.tsx           lesson → challenges → result
   VisualCard.tsx        mock email / SMS / file / Wi-Fi cards
   Confetti.tsx
+  TeacherChat.tsx       live chat with the day's teacher
+  BonusChallenge.tsx    AI-written bonus question
+  Leaderboard.tsx       live weekly leaderboard
+app/api/
+  features/             which live features are switched on
+  teacher/              Gemini teacher chat
+  bonus/                Gemini bonus question (schema-checked)
+  leaderboard/          read and submit weekly scores
 lib/
   journey.ts            story, teachers, lessons and all 40 questions
   profile.ts            sign-in and saved progress
+  features.ts           client hook for the live features
+  server/gemini.ts      server-only Gemini client
+  server/redis.ts       Upstash REST client
   sound.ts              sound effects
 ```
 
@@ -75,13 +96,19 @@ npm run dev     # http://localhost:3000
 
 Other scripts: `npm run build`, `npm run start`, `npm run lint`, `npm run typecheck`.
 
-## Deploy
+## Deploy (Vercel)
 
-Import the repository on Vercel (the Next.js defaults work), deploy, and turn the URL into a QR code.
+1. Import the repository at vercel.com/new. The Next.js defaults work.
+2. Optional, under Project → Settings → Environment Variables (see `.env.example`):
+   - `GEMINI_API_KEY` to switch on the teacher chat and bonus challenge
+   - `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` to switch on the leaderboard (or add the Upstash integration from Vercel's Storage tab, which sets them for you)
+3. Deploy (redeploy after adding variables), then turn the URL into a QR code.
+
+For local development, copy `.env.example` to `.env.local` and fill in the same values.
 
 ## Future improvements
 
 - Google sign-in with Clerk, and progress saved online across devices
-- A shared leaderboard
-- AI-generated questions so every play-through is different
+- AI-generated full days, adapted to the topics each player gets wrong
+- Rate limiting and moderation on the AI features
 - More days and attacks, plus a teacher dashboard for classes

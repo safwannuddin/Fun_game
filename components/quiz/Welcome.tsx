@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Avatar from "./Avatar";
+import Leaderboard from "./Leaderboard";
 
 /** First screen anyone sees after scanning the QR code. */
 export default function Welcome({ onStart }: { onStart: () => void }) {
@@ -42,6 +43,9 @@ export default function Welcome({ onStart }: { onStart: () => void }) {
           <li className="rounded-full border border-line px-3 py-1">Basic → Advanced</li>
         </ul>
       </motion.div>
+      <div className="w-full max-w-md text-left">
+        <Leaderboard />
+      </div>
     </div>
   );
 }

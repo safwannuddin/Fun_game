@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { DAYS, starsFor } from "@/lib/journey";
-import { currentProfile, saveProfile, signIn, signOut, type AvatarKind, type Profile } from "@/lib/profile";
+import { currentProfile, daysCleared, saveProfile, signIn, signOut, type AvatarKind, type Profile } from "@/lib/profile";
+import { useFeatures } from "@/lib/features";
+import { BONUS_XP } from "./BonusChallenge";
 import Welcome from "./Welcome";
 import Login from "./Login";
 import AvatarPick from "./AvatarPick";
@@ -16,15 +18,25 @@ export default function Journey() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [playing, setPlaying] = useState<number | null>(null);
   const [welcomed, setWelcomed] = useState(false);
+  const features = useFeatures();
 
   useEffect(() => {
     setProfile(currentProfile());
     setReady(true);
   }, []);
 
-  const update = (p: Profile) => {
+  const update = (p: Profile, postScore = false) => {
     saveProfile(p);
     setProfile({ ...p });
+    if (postScore && features.leaderboard && p.avatar) {
+      fetch("/api/leaderboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: p.email, name: p.playerName, character: p.characterName, avatar: p.avatar, xp: Math.min(p.xp, 1000), days: daysCleared(p) }),
+      }).catch(() => {
+        /* the leaderboard is a bonus; the game never depends on it */
+      });
+    }
   };
 
   if (!ready) return null;
@@ -59,7 +71,12 @@ export default function Journey() {
               ...profile.days,
               [day.day]: { stars: Math.max(prev?.stars ?? 0, stars), best: Math.max(prev?.best ?? 0, correct) },
             },
-          });
+          }, true);
+        }}
+        ai={features.ai}
+        onBonus={() => {
+          const latest = currentProfile() ?? profile;
+          update({ ...latest, xp: latest.xp + BONUS_XP }, true);
         }}
         onNextDay={hasNext ? () => setPlaying(playing + 1) : null}
       />

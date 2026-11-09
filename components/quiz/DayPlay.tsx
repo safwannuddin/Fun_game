@@ -8,6 +8,8 @@ import { sfx } from "@/lib/sound";
 import Avatar, { type Mood } from "./Avatar";
 import VisualCard from "./VisualCard";
 import Confetti from "./Confetti";
+import TeacherChat from "./TeacherChat";
+import BonusChallenge from "./BonusChallenge";
 
 interface Props {
   day: Day;
@@ -16,6 +18,8 @@ interface Props {
   onExit: () => void;
   onFinish: (correct: number) => void;
   onNextDay: (() => void) | null;
+  ai: boolean;
+  onBonus: () => void;
 }
 
 type Stage = "lesson" | "quiz" | "result";
@@ -34,7 +38,7 @@ function TeacherBadge({ day }: { day: Day }) {
   );
 }
 
-export default function DayPlay({ day, kind, name, onExit, onFinish, onNextDay }: Props) {
+export default function DayPlay({ day, kind, name, onExit, onFinish, onNextDay, ai, onBonus }: Props) {
   const [stage, setStage] = useState<Stage>("lesson");
   const [qi, setQi] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
@@ -190,6 +194,7 @@ export default function DayPlay({ day, kind, name, onExit, onFinish, onNextDay }
                   <p className="eyebrow">Remember</p>
                   <p className="mt-1 font-display text-lg">{day.rule}</p>
                 </div>
+                {ai && <TeacherChat day={day} />}
                 <button
                   type="button"
                   className="btn self-start"
@@ -324,6 +329,8 @@ export default function DayPlay({ day, kind, name, onExit, onFinish, onNextDay }
                   <p className="eyebrow">{day.teacher.name}&apos;s rule</p>
                   <p className="mt-1 font-display text-lg">{day.rule}</p>
                 </div>
+                {ai && passed && <BonusChallenge day={day} onCorrect={onBonus} />}
+                {ai && !passed && <TeacherChat day={day} />}
                 <div className="flex flex-wrap gap-3">
                   {passed && onNextDay && (
                     <button type="button" className="btn" onClick={onNextDay}>

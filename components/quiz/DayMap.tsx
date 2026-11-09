@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { DAYS, rankFor, STORY } from "@/lib/journey";
 import { daysCleared, isUnlocked, type Profile } from "@/lib/profile";
 import Avatar from "./Avatar";
+import Leaderboard from "./Leaderboard";
 
 const TIER_TONE: Record<string, string> = {
   Basic: "text-safe border-safe/40",
@@ -107,6 +108,7 @@ export default function DayMap({ profile, onPlay, onSignOut }: { profile: Profil
             );
           })}
         </ol>
+        <Leaderboard refreshKey={profile.xp} highlight={profile.playerName} />
       </section>
     </div>
   );
