@@ -6,6 +6,18 @@ import type { Day } from "@/lib/journey";
 
 type Msg = { role: "user" | "model"; text: string };
 
+/** Shows **bold** as bold and drops stray Markdown asterisks, without ever rendering HTML. */
+function Rich({ text }: { text: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <>
+      {parts.map((p, i) =>
+        /^\*\*[^*]+\*\*$/.test(p) ? <b key={i}>{p.slice(2, -2)}</b> : <span key={i}>{p.replace(/(^|\s)\*(\S[^*]*\S|\S)\*(?=\s|[.,!?]|$)/g, "$1$2").replace(/^#+\s*/gm, "")}</span>,
+      )}
+    </>
+  );
+}
+
 function starters(day: Day): string[] {
   return [`How do I spot ${day.attack.toLowerCase()}?`, "Can you give me a real-life example?", "What should I do if it already happened?"];
 }
@@ -88,7 +100,7 @@ export default function TeacherChat({ day }: { day: Day }) {
                 m.role === "user" ? "self-end rounded-br-sm bg-signal text-ink" : "self-start rounded-bl-sm bg-raised"
               }`}
             >
-              {m.text}
+              {m.role === "model" ? <Rich text={m.text} /> : m.text}
             </motion.p>
           ))}
         </AnimatePresence>
