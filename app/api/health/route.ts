@@ -14,7 +14,7 @@ export async function GET() {
     geminiStatus(),
     leaderboardEnabled()
       ? pipeline([["PING"]]).then((r) => ({ ok: r?.[0] === "PONG", detail: r ? String(r[0]) : "no response" }))
-      : Promise.resolve({ ok: false, detail: "UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN not set" }),
+      : Promise.resolve({ ok: false, detail: "Set KV_REST_API_URL + KV_REST_API_TOKEN (or UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN), then redeploy" }),
   ]);
   return NextResponse.json({ ai, leaderboard: db }, { status: ai.ok || db.ok ? 200 : 503 });
 }
